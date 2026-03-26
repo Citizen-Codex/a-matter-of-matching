@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Matter of Matching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F5F3EE;
+  --ink: #1A1A18;
+  --ink-mid: #3D3D38;
+  --ink-light: #7A7A72;
+  --teal: #1A6B6B;
+  --teal-light: #E8F2F2;
+  --teal-mid: #2A8B8B;
+  --rule: #D4D0C8;
+  --mono: 'IBM Plex Mono', monospace;
+  --display: 'DM Serif Display', serif;
+  --body: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   TYPOGRAPHY
+   ============================================= */
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.15; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.2rem;
+}
+
+p { margin-bottom: 1.2rem; color: var(--ink-mid); }
+p:last-child { margin-bottom: 0; }
+
+strong { color: var(--ink); font-weight: 600; }
+
+/* =============================================
+   LAYOUT
+   ============================================= */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container--wide {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: 6rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+section:first-child { border-top: none; }
+
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* =============================================
+   HEADER / NAV
+   ============================================= */
+.site-header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+
+.site-header .logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mid);
+  text-decoration: none;
+  cursor: pointer;
+}
+.site-header .logo:hover { color: var(--teal); }
+
+.site-header .meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  text-align: right;
+}
+
+/* =============================================
+   HERO
+   ============================================= */
+#hero {
+  padding: 5rem 0 4rem;
+  border-top: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--ink-mid);
+  max-width: 540px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* =============================================
+   RECORD DISPLAY (THROUGH LINE)
+   ============================================= */
+.record-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 3rem 0 2.5rem;
+  border: 1px solid var(--rule);
+}
+
+.record-card {
+  background: #fff;
+  padding: 1.75rem 2rem;
+  border: none;
+}
+
+.record-card + .record-card {
+  border-left: 2px solid var(--teal);
+}
+
+.record-header {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.record-body {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 2;
+  color: var(--ink);
+  white-space: pre;
+}
+
+.record-body .field-label {
+  color: var(--ink-light);
+  display: inline-block;
+  width: 72px;
+}
+
+.field-diff {
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.through-question {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  text-align: center;
+  margin: 2rem 0 0.75rem;
+  font-style: italic;
+}
+
+.through-subtext {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-light);
+}
+
+/* =============================================
+   PART 1: DIAL
+   ============================================= */
+.dial-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem 0 2rem;
+  gap: 2rem;
+}
+
+.dial-svg-container {
+  cursor: pointer;
+  user-select: none;
+  display: block;
+}
+
+.dial-svg-container svg text {
+  transition: fill 0.25s;
+}
+
+.scenario-card {
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--teal);
+  padding: 2rem;
+  min-height: 180px;
+  transition: opacity 0.3s ease;
+}
+
+.scenario-cost-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 0.75rem;
+}
+
+.scenario-stakes {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  margin-bottom: 0.75rem;
+}
+
+.stakes-low { background: #E8F5E9; color: #2E7D32; }
+.stakes-medium { background: #FFF8E1; color: #F57F17; }
+.stakes-high { background: #FFEBEE; color: #C62828; }
+
+.scenario-title {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.scenario-body { font-size: 15px; color: var(--ink-mid); margin-bottom: 1rem; }
+
+.scenario-cost {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.scenario-cost strong { color: var(--ink); }
+
+.dial-summary {
+  max-width: 560px;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.dial-summary.visible { opacity: 1; }
+.dial-summary p { font-size: 15px; }
+
+/* =============================================
+   PART 2: MORPHING RECORD
+   ============================================= */
+.morphing-toggle {
+  display: flex;
+  gap: 0;
+  margin: 2rem 0;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.toggle-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--rule);
+  cursor: pointer;
+  color: var(--ink-light);
+  transition: all 0.2s;
+}
+
+.toggle-btn:last-child { border-right: none; }
+
+.toggle-btn.active {
+  background: var(--teal);
+  color: #fff;
+}
+
+.morphing-doc {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--teal);
+  padding: 0;
+  overflow: hidden;
+}
+
+.morphing-doc-header {
+  background: #F0EDE8;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.morphing-doc-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.morphing-doc-subtitle {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+}
+
+.morphing-doc-body {
+  padding: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.morphing-doc-body h3 {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.morphing-doc-body .subhead {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.04em;
+}
+
+.morphing-doc-body p { font-size: 15px; }
+
+.record-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  margin: 1.5rem 0;
+  border: 1px solid var(--rule);
+}
+
+.record-pair-cell {
+  background: var(--bg);
+  padding: 1rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.record-pair-cell .src {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 0.4rem;
+}
+
+.record-pair-cell .val { color: var(--ink); }
+
+.morphing-caption {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-style: italic;
+}
+
+.record-context {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  margin: 0.5rem 0 1rem;
+  line-height: 1.6;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--rule);
+}
+
+.morphing-summary {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--rule);
+  background: var(--teal-light);
+}
+
+.morphing-summary p { font-size: 15px; color: var(--ink-mid); }
+.morphing-summary em { font-style: italic; color: var(--ink); }
+
+/* =============================================
+   PART 3A: SLIDER
+   ============================================= */
+.slider-wrapper {
+  margin: 3rem 0 2rem;
+}
+
+.slider-poles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.pole-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+.slider-track-container {
+  position: relative;
+  padding: 1rem 0;
+}
+
+input[type="range"].threshold-slider { /* neutral: dark at poles, light warm gray at center */
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #3A3835, #C8C4BC 50%, #3A3835);
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type="range"].threshold-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: grab;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+input[type="range"].threshold-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  transform: scale(1.1);
+}
+
+input[type="range"].threshold-slider::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: grab;
+}
+
+.slider-center-label {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-top: 0.5rem;
+  height: 1.5rem;
+  transition: opacity 0.3s;
+}
+
+.slider-content {
+  margin-top: 2rem;
+  transition: border-color 0.3s;
+}
+
+.slider-content.fp,
+.slider-content.fn {
+  min-height: 220px;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--ink);
+}
+
+.slider-content.fp { border-top-color: #4A4845; }
+.slider-content.fn { border-top-color: #4A4845; }
+
+.slider-content-inner {
+  animation: fadeIn 0.3s ease;
+}
+
+.failure-mode-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.fp .failure-mode-label { color: var(--ink); }
+.fn .failure-mode-label { color: var(--ink); }
+
+.failure-title {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.failure-def {
+  font-size: 14px;
+  color: var(--ink-light);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.failure-body { font-size: 15px; }
+
+.failure-cost {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  margin-top: 1rem;
+}
+
+.failure-cost strong { color: var(--ink); }
+
+.slider-center-placeholder {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.slider-center-placeholder p {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--ink-light);
+}
+
+.slider-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--teal-light);
+  border: 1px solid var(--rule);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.slider-summary.visible { opacity: 1; }
+.slider-summary p { font-size: 15px; }
+
+/* Slider case study components */
+.slider-content { min-height: 0; }
+
+.slider-case-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+}
+.slider-case-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.slider-case-source {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-light);
+  letter-spacing: 0.04em;
+}
+.timeline-slider {
+  margin: 0.5rem 0 1rem;
+  padding-left: 2rem;
+}
+.timeline-slider::before {
+  left: 8px;
+  top: 20px;
+  bottom: 20px;
+}
+.timeline-slider .timeline-dot {
+  left: -1.85rem;
+  top: 1.5rem;
+  width: 14px;
+  height: 14px;
+}
+.timeline-slider .timeline-event-header {
+  padding: 1.25rem 0 1.25rem 0.5rem;
+  gap: 1.25rem;
+}
+.timeline-slider .timeline-date {
+  min-width: 180px;
+  font-size: 11px;
+}
+.timeline-slider .timeline-event-title {
+  font-size: 1.1rem;
+}
+.timeline-slider .timeline-body-inner {
+  padding: 0 0 1.5rem 11.5rem;
+  font-size: 15px;
+}
+.slider-quote-block {
+  margin: 1.5rem 0 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.slider-quote-text {
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  color: var(--ink) !important;
+}
+.slider-quote-attr {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  letter-spacing: 0.05em;
+  margin: 0 !important;
+}
+.slider-scale-note {
+  background: var(--bg);
+  border-left: 3px solid var(--teal);
+  padding: 0.75rem 1rem;
+  font-size: 14px;
+  color: var(--ink-mid);
+  margin-bottom: 1rem;
+}
+.slider-closing-line {
+  font-size: 14px;
+  color: var(--ink-mid);
+  font-style: italic;
+  margin: 0;
+}
+
+@media (max-width: 680px) {
+  .timeline-slider .timeline-date { min-width: auto; }
+  .timeline-slider .timeline-body-inner { padding-left: 1rem; }
+}
+
+/* =============================================
+   PART 3B: TIMELINE
+   ============================================= */
+.timeline {
+  position: relative;
+  margin: 3rem 0 2rem;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--rule);
+}
+
+.timeline-event {
+  position: relative;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.timeline-event-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.25rem 0 1.25rem 0.5rem;
+  transition: color 0.2s;
+}
+
+.timeline-event:hover .timeline-event-header { color: var(--teal); }
+
+.timeline-dot {
+  position: absolute;
+  left: -1.85rem;
+  top: 1.5rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--rule);
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.timeline-event.active .timeline-dot,
+.timeline-event:hover .timeline-dot {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.timeline-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-light);
+  white-space: nowrap;
+  min-width: 180px;
+  padding-top: 2px;
+}
+
+.timeline-event-title {
+  font-family: var(--display);
+  font-size: 1.1rem;
+}
+
+.timeline-expand-icon {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--ink-light);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+
+.timeline-event.active .timeline-expand-icon { transform: rotate(45deg); color: var(--teal); }
+
+.timeline-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  padding-left: 0.5rem;
+}
+
+.timeline-event.active .timeline-body {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.timeline-body-inner {
+  padding: 0 0 1.5rem 11.5rem;
+  font-size: 15px;
+  color: var(--ink-mid);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0;
+}
+
+/* Visual gap between events */
+.timeline-gap {
+  height: 3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+}
+
+.timeline-gap-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rule);
+  margin-left: 1.25rem;
+}
+
+.timeline-gap-large {
+  height: 5rem;
+}
+
+.quote-block {
+  margin: 3rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.quote-text {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.quote-attr {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  letter-spacing: 0.05em;
+}
+
+.scale-note {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--teal);
+  padding: 1.5rem 2rem;
+  font-size: 15px;
+  color: var(--ink-mid);
+  margin-top: 2rem;
+}
+
+/* =============================================
+   PART 4: DECISION LOG
+   ============================================= */
+.decision-log {
+  margin: 2.5rem 0;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+
+.decision-log-header {
+  background: #F0EDE8;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.decision-log-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.decision-log-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-light);
+  letter-spacing: 0.08em;
+}
+
+.decision-log-intro {
+  padding: 0.75rem 2rem;
+  border-bottom: 1px solid var(--rule);
+  background: #FAFAF8;
+}
+
+.decision-log-intro p {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  margin: 0;
+}
+
+.decision-row {
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.decision-row:last-child { border-bottom: none; }
+.decision-row:hover { background: #FAFAF8; }
+.decision-row.active { background: #FAFAF8; }
+
+.decision-row-header {
+  display: grid;
+  grid-template-columns: 2rem 1fr 2fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 2rem;
+}
+
+.decision-row-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  letter-spacing: 0.08em;
+}
+
+.decision-row-name {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.decision-row-desc {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+}
+
+.decision-row-icon {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--ink-light);
+  transition: transform 0.25s, color 0.2s;
+}
+
+.decision-row.active .decision-row-icon {
+  transform: rotate(45deg);
+  color: var(--teal);
+}
+
+.decision-row-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.decision-row.active .decision-row-body {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.decision-row-body-inner {
+  padding: 0 2rem 1.75rem 5.5rem;
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.decision-log-footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--rule);
+  background: #FAFAF8;
+}
+
+.decision-log-footer p {
+  font-size: 15px;
+  color: var(--ink-mid);
+  margin: 0;
+  font-style: italic;
+}
+
+/* =============================================
+   PART 5: FLIP CARDS
+   ============================================= */
+.cards-instruction {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-light);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.flip-card {
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: 2rem 2rem 1.75rem;
+  border: 1px solid var(--rule);
+  min-height: 200px;
+}
+
+.flip-card-front {
+  background: #fff;
+  border-top: 3px solid var(--teal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flip-card-back {
+  background: var(--teal);
+  color: #fff;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flip-card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: auto;
+}
+
+.flip-card-back .flip-card-num {
+  color: rgba(255,255,255,0.5);
+}
+
+.flip-card-question {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-top: 0.75rem;
+}
+
+.flip-card-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.flip-card-answer-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.75rem;
+}
+
+.flip-card-answer {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.92);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.flip-card-back-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-top: 1rem;
+  flex-shrink: 0;
+}
+
+.cards-closing {
+  margin: 2.5rem 0 0;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--teal);
+}
+
+.cards-closing p { font-size: 15px; }
+
+/* =============================================
+   FOOTNOTES
+   ============================================= */
+#footnotes {
+  padding: 3rem 0 5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.footnotes-list {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.footnotes-list li {
+  font-size: 12px;
+  color: var(--ink-light);
+  line-height: 1.7;
+  padding: 0.25rem 0;
+  font-family: var(--mono);
+}
+
+.footnotes-list em {
+  font-style: italic;
+}
+
+.footnotes-list a {
+  color: var(--ink-light);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.footnotes-list a:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+/* =============================================
+   SCROLL TO TOP
+   ============================================= */
+#scrollTopBtn {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 2rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s;
+  z-index: 200;
+  font-size: 16px;
+  line-height: 1;
+}
+
+#scrollTopBtn.visible {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+#scrollTopBtn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.site-footer {
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  letter-spacing: 0.06em;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 680px) {
+  section { padding: 4rem 0; }
+
+  .record-split {
+    grid-template-columns: 1fr;
+  }
+
+  .record-card + .record-card {
+    border-left: none;
+    border-top: 2px solid var(--teal);
+  }
+
+  .record-body { font-size: 12px; white-space: normal; }
+
+  .dial-wrapper { gap: 1.5rem; }
+
+  .timeline-body-inner { padding-left: 1rem; }
+
+  .decision-row-header {
+    grid-template-columns: 1.5rem 1fr auto;
+    gap: 1rem;
+  }
+
+  .decision-row-desc { display: none; }
+
+  .decision-row-body-inner { padding-left: 3rem; }
+
+  .cards-grid { grid-template-columns: 1fr; }
+
+  .site-header .meta { display: none; }
+
+  .record-pair { grid-template-columns: 1fr; }
+
+  .timeline-date { min-width: auto; font-size: 10px; }
+
+  .timeline-event-header { gap: 0.75rem; flex-wrap: wrap; }
+
+  .morphing-toggle { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="logo" href="#" id="logoLink">A Matter of Matching</a>
+  <div class="meta">Citizen Codex · March 2026</div>
+</header>
+
+<!-- HERO / THROUGH LINE -->
+<section id="hero">
+  <div class="container">
+    <div class="reveal">
+      <p class="hero-eyebrow">Citizen Codex Monthly Research · March 2026</p>
+      <h1 class="hero-title">A Matter of Matching</h1>
+      <p class="hero-subtitle">What entity resolution is, why it matters, and what every team needs to ask.</p>
+    </div>
+
+    <div class="record-split reveal reveal-delay-2">
+      <div class="record-card">
+        <div class="record-header">Record A: Source: SSA Master File</div>
+        <div class="record-body"><span class="field-label">Name:   </span>Ned Johnson
+<span class="field-label">DOB:    </span>04/14/42
+<span class="field-label">SSN:    </span>***-**-7823
+<span class="field-label">Status: </span>Active</div>
+      </div>
+      <div class="record-card">
+        <div class="record-header">Record B: Source: Death Report</div>
+        <div class="record-body"><span class="field-label">Name:   </span>Edward N. Johnson
+<span class="field-label">DOB:    </span>April 14, 1942
+<span class="field-label">SSN:    </span>***-**-7823
+<span class="field-label">Status: </span>Deceased, 11/2024</div>
+      </div>
+    </div>
+
+    <p class="through-question reveal reveal-delay-3">Are these the same person?</p>
+    <p class="through-subtext reveal reveal-delay-3">Your answer matters.</p>
+  </div>
+</section>
+
+<!-- PART 1 -->
+<section id="part1">
+  <div class="container">
+    <p class="section-label reveal">Part 1</p>
+    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.5rem;">You Already Know This Problem.</h2>
+    <h2 class="reveal reveal-delay-1" style="font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 2rem; color: var(--ink);">You Might Not Have a Name for It.</h2>
+
+    <p class="reveal">Entity resolution sounds like a technical term. It is, but it has real world implications. It's a problem you've experienced dozens of times, but often you just didn't know what to call it.</p>
+    <p class="reveal">Entity resolution is what happens when a computer has to decide whether two pieces of data refer to the same real-world thing without a shared identifier to rely on: a name, a company name, a product description, a city and state. It's a judgment call, not a lookup. And the consequences of getting it wrong depend entirely on what's at stake.</p>
+
+    <div class="dial-wrapper reveal">
+      <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin:0;">Move the dial to explore the range.</p>
+
+      <div class="dial-svg-container" id="dial" role="slider" aria-valuemin="0" aria-valuemax="2" aria-valuenow="0">
+        <svg id="dialSVG" viewBox="0 0 280 155" xmlns="http://www.w3.org/2000/svg" width="280" height="155">
+          <!-- Outer filled arc (top semicircle) -->
+          <path d="M 10 140 A 130 130 0 0 1 270 140 Z" fill="#EDEAE4" stroke="#D4D0C8" stroke-width="1.5"/>
+          <!-- Inner cutout for ring -->
+          <path d="M 50 140 A 90 90 0 0 1 230 140 Z" fill="#F5F3EE" stroke="none"/>
+          <!-- Flat bottom edge -->
+          <line x1="8" y1="140" x2="272" y2="140" stroke="#D4D0C8" stroke-width="1.5"/>
+          <!-- Tick: Low (left end) -->
+          <line x1="10" y1="140" x2="26" y2="140" stroke="#B8B4AC" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Tick: Medium (top) -->
+          <line x1="140" y1="10" x2="140" y2="26" stroke="#B8B4AC" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Tick: High (right end) -->
+          <line x1="270" y1="140" x2="254" y2="140" stroke="#B8B4AC" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Needle group, default = medium (pointing up) -->
+          <g id="dialNeedle" style="transform-origin: 140px 140px; transform: rotate(-90deg); transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);">
+            <line x1="140" y1="140" x2="140" y2="30" stroke="#1A6B6B" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="140" cy="30" r="4.5" fill="#1A6B6B"/>
+          </g>
+          <!-- Center hub (rendered on top of needle base) -->
+          <circle cx="140" cy="140" r="13" fill="#F9F7F3" stroke="#D4D0C8" stroke-width="2"/>
+          <circle cx="140" cy="140" r="6" fill="#1A6B6B"/>
+          <!-- Labels -->
+          <text id="dialLabelLow" x="10" y="105" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#1A6B6B" text-anchor="middle" letter-spacing="1.5">LOW</text>
+          <text id="dialLabelMed" x="140" y="10" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#7A7A72" text-anchor="middle" letter-spacing="1.5">MED</text>
+          <text id="dialLabelHigh" x="274" y="105" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#7A7A72" text-anchor="end" letter-spacing="1.5">HIGH</text>
+        </svg>
+      </div>
+
+      <div class="scenario-card" id="scenarioCard">
+        <div id="scenarioContent">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <div class="dial-summary" id="dialSummary">
+        <p>The stakes vary enormously. But the underlying problem is always the same: separate systems, inconsistent records, and a judgment call about whether two things are one thing.</p>
+        <p><strong>That is entity resolution.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section id="part2">
+  <div class="container">
+    <p class="section-label reveal">Part 2</p>
+    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">Why It's Hard</h2>
+
+    <p class="reveal">Entity resolution isn't a solved problem. If it were, the hospital merger would be straightforward and the package would always arrive. There are three reasons it remains hard, and understanding them is the foundation for everything that follows.</p>
+
+    <p class="reveal" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light);">See how the same problem takes three different forms.</p>
+
+    <div class="morphing-toggle reveal">
+      <button class="toggle-btn active" data-state="0">Variation</button>
+      <button class="toggle-btn" data-state="1">Ambiguity</button>
+      <button class="toggle-btn" data-state="2">Intentional Obscurity</button>
+    </div>
+
+    <div class="morphing-doc reveal reveal-delay-1">
+      <div class="morphing-doc-header">
+        <span class="morphing-doc-title" id="morphingDocTitle">Variation</span>
+        <span class="morphing-doc-subtitle" id="morphingDocSubtitle">The same entity, recorded differently.</span>
+      </div>
+      <div class="morphing-doc-body" id="morphingDocBody">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div class="morphing-summary reveal reveal-delay-2" id="morphingSummary" style="display:none;">
+      <p>Entity resolution almost never produces a binary yes or no. It produces a probability. <em>These two records are 87% likely to be the same entity.</em></p>
+      <p style="margin-top:0.75rem;">The hard question isn't technical. It's: <em>what do you do with that 87%?</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section id="part3">
+  <div class="container">
+    <p class="section-label reveal">Part 3</p>
+    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">Now Raise the Stakes</h2>
+
+    <p class="reveal">Everything so far has been abstract. Let's make it concrete. Because when entity resolution fails in civic and government systems, it doesn't hold up a package or create a duplicate charge. It stops an 82-year-old man's income. It cancels his health insurance. It tells his bank he's dead.</p>
+
+    <!-- 3A: SLIDER -->
+    <div class="slider-wrapper reveal">
+      <div class="slider-poles">
+        <span class="pole-label">Match Everything</span>
+        <span class="pole-label">Match Nothing</span>
+      </div>
+      <div class="slider-track-container">
+        <input type="range" class="threshold-slider" id="thresholdSlider" min="0" max="100" value="50">
+        <div class="slider-center-label" id="sliderCenterLabel">There is no default.</div>
+      </div>
+      <div class="slider-content" id="sliderContent">
+        <div class="slider-center-placeholder" id="sliderPlaceholder" style="display:none;">
+          <p>There is no default.</p>
+        </div>
+        <div class="slider-content-inner" id="sliderInner" style="display:none;"></div>
+      </div>
+      <div class="slider-summary" id="sliderSummary">
+        <p>Ned Johnson woke up and discovered he was dead. He got a letter. He knew immediately something was wrong. The Labin case produced no letter. The error was invisible until a journalist found it. That asymmetry is the nature of false positives and false negatives, and it is why the position of that slider is one of the most consequential decisions a builder can make.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section id="part4">
+  <div class="container">
+    <p class="section-label reveal">Part 4</p>
+    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">What It Looks Like From the Inside</h2>
+
+    <p class="reveal">Before GovSkills, I spent several years as a product leader in corporate due diligence and supply chain risk intelligence, building tools for analysts and compliance teams trying to understand who owns what, who is connected to whom, and who is evading detection across global commercial networks.</p>
+    <p class="reveal">The users of these products were investigators, trade compliance officers, and financial crime analysts. Their job was to take a name, a company, a person, a vessel, and determine whether it was safe to do business with. Entity resolution was not a background process in this context. It was the product. Every result on the screen was the output of a matching decision made somewhere in the system.</p>
+    <p class="reveal">Working as a PM in that environment meant sitting at the intersection of the matching logic and the people relying on it. Engineers built the algorithms. But the decisions that shaped what users saw, and what they trusted, were product decisions. And they were made by people. Including me.</p>
+    <p class="reveal">This is what that decision log actually looked like.</p>
+
+    <div class="decision-log reveal reveal-delay-1">
+      <div class="decision-log-header">
+        <span class="decision-log-title">Entity Resolution: Product Decisions Log</span>
+        <span class="decision-log-meta">Sayari · Internal · PM Review</span>
+      </div>
+      <div class="decision-log-intro">
+        <p>Click any decision to see what was at stake.</p>
+      </div>
+
+      <div class="decision-row" data-row="0">
+        <div class="decision-row-header">
+          <span class="decision-row-num">01</span>
+          <span class="decision-row-name">Confidence Threshold</span>
+          <span class="decision-row-desc">At what probability does a match get surfaced to the analyst?</span>
+          <span class="decision-row-icon">+</span>
+        </div>
+        <div class="decision-row-body">
+          <div class="decision-row-body-inner">
+            <p>In corporate due diligence, an analyst might be screening a potential business partner against a sanctions list or trying to determine if two entities in different countries are actually the same company. The matching system produces a probability. We had to decide where to draw the line between a confirmed match and a possible one. Too low and analysts waste hours investigating connections that don't hold up. Too high and real connections between sanctioned entities go undetected. There is no right answer, only a considered one. We documented our reasoning. Most products don't.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-row" data-row="1">
+        <div class="decision-row-header">
+          <span class="decision-row-num">02</span>
+          <span class="decision-row-name">The "Possibly Same As" Section</span>
+          <span class="decision-row-desc">How do you show an analyst that two records might be the same entity without telling them they definitely are?</span>
+          <span class="decision-row-icon">+</span>
+        </div>
+        <div class="decision-row-body">
+          <div class="decision-row-body-inner">
+            <p>Rather than showing a raw confidence score, a number most analysts wouldn't know how to act on, we created a distinct state in the product: "possibly same as." A company in the UAE and a company in the British Virgin Islands might share directors, addresses, and registration patterns without sharing a name. This wasn't a dismissal of an uncertain match. It was a flag that said: we found something, we're not certain, and now it's yours to investigate. That translation from probability to actionable category is a product decision, not a data science decision. It shapes what analysts trust and what they question.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-row" data-row="2">
+        <div class="decision-row-header">
+          <span class="decision-row-num">03</span>
+          <span class="decision-row-name">Recall vs. Precision</span>
+          <span class="decision-row-desc">Do we optimize to surface every possible connection, or only the ones we're confident about?</span>
+          <span class="decision-row-icon">+</span>
+        </div>
+        <div class="decision-row-body">
+          <div class="decision-row-body-inner">
+            <p>In supply chain mapping, a procurement team might need to screen hundreds of suppliers against export control lists. Do you show every possible match and let analysts sort it out, catching more real risks but generating more noise? Or do you only surface high-confidence matches, fewer false alarms but some real risks missed? For a consumer product the calculus is easy. For a trade compliance product where a false negative can mean inadvertently financing sanctioned activity, the cost of missing a real connection is not recoverable. That consequence shaped every tuning decision. The question, what are we optimizing for and why, should be asked before any matching system is built. Not after.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-row" data-row="3">
+        <div class="decision-row-header">
+          <span class="decision-row-num">04</span>
+          <span class="decision-row-name">Making Country Identifiers Legible</span>
+          <span class="decision-row-desc">How do you help an analyst evaluate a match when they don't have country-level expertise?</span>
+          <span class="decision-row-icon">+</span>
+        </div>
+        <div class="decision-row-body">
+          <div class="decision-row-body-inner">
+            <p>Every country has its own corporate registration identifiers. A French SIREN number, a UK Companies House number, a UAE commercial license number. In global due diligence work, analysts are often crossing dozens of jurisdictions they don't specialize in. If the system surfaces two records matched on a Cameroonian tax ID the analyst has never encountered, they have no way to evaluate whether that match is meaningful or coincidental. We wrote plain-language explanations of what each identifier was, where it came from, and why it was being used to suggest a connection. That documentation wasn't for the algorithm. It was for the person relying on it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-row" data-row="4">
+        <div class="decision-row-header">
+          <span class="decision-row-num">05</span>
+          <span class="decision-row-name">The Combined Profile as Transparency</span>
+          <span class="decision-row-desc">Should analysts see the underlying source records that make up a combined entity profile, or just the clean merged result?</span>
+          <span class="decision-row-icon">+</span>
+        </div>
+        <div class="decision-row-body">
+          <div class="decision-row-body-inner">
+            <p>In corporate due diligence, trust in the product depends on being able to verify the result. We showed both the merged profile and the underlying source records, the raw data from each jurisdiction, each registry, each document. An analyst screening a supply chain partner could see exactly which records had been combined and make their own judgment about whether the match held. That visibility is a form of accountability. It meant analysts weren't blindly trusting a result they couldn't interrogate. It also meant that when the system was wrong, a skilled analyst could catch it. Most products abstract this away in the name of simplicity. We decided the abstraction cost too much.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-log-footer">
+        <p>These aren't engineering decisions. Every one of them is a design decision, a product decision, a values decision. The algorithm executes them. But a person made them, and those decisions travel downstream into the lives of people who never knew they were made.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 5 -->
+<section id="part5">
+  <div class="container">
+    <p class="section-label reveal">Part 5</p>
+    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">What to Take With You</h2>
+
+    <p class="reveal">Entity resolution is infrastructure. It runs underneath products you use every day and systems that govern access to benefits, credit, housing, and opportunity. Most of the time you don't see it. You see the outcome.</p>
+    <p class="reveal">What changes when you know it's there is that you start asking different questions: before you build, before you ship, before you connect two datasets and call it done.</p>
+    <p class="reveal">Here are five questions every team working with matched data should be able to answer. Each card has the question. Flip it to see what good practice looks like.</p>
+
+    <p class="cards-instruction reveal">Each card has a question. Flip it to see what good practice looks like.</p>
+
+    <div class="cards-grid reveal">
+
+      <div class="flip-card" data-card="0">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div>
+              <div class="flip-card-num">Question 01</div>
+              <div class="flip-card-question">Have we defined what counts as a match, and written it down?</div>
+            </div>
+            <div class="flip-card-hint">Flip to see →</div>
+          </div>
+          <div class="flip-card-back">
+            <div>
+              <div class="flip-card-answer-label">Good Practice</div>
+              <div class="flip-card-answer">A documented matching criteria spec: a plain-language description of what signals the system uses, how they are weighted, and what threshold triggers a confirmed match versus a possible one. This document should be readable by a PM, a designer, and a user, not just an engineer. If you cannot write it in plain language, that is usually a signal the logic is not well understood even internally.</div>
+            </div>
+            <div class="flip-card-back-hint">← Flip back</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" data-card="1">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div>
+              <div class="flip-card-num">Question 02</div>
+              <div class="flip-card-question">Have we decided who bears the cost if we're wrong, and is that acceptable?</div>
+            </div>
+            <div class="flip-card-hint">Flip to see →</div>
+          </div>
+          <div class="flip-card-back">
+            <div>
+              <div class="flip-card-answer-label">Good Practice</div>
+              <div class="flip-card-answer">Make this decision explicitly before building, not after a failure. In design terms this means mapping the error states: what does a false positive look like for a real user, what does a false negative look like, and who in that scenario has the least power to correct it. The person with the least power to correct an error should receive the most protection in the design.</div>
+            </div>
+            <div class="flip-card-back-hint">← Flip back</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" data-card="2">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div>
+              <div class="flip-card-num">Question 03</div>
+              <div class="flip-card-question">Is there a path for someone to dispute or correct a match?</div>
+            </div>
+            <div class="flip-card-hint">Flip to see →</div>
+          </div>
+          <div class="flip-card-back">
+            <div>
+              <div class="flip-card-answer-label">Good Practice</div>
+              <div class="flip-card-answer">Build the correction path before launch, not as a post-launch fix. Technically this means a feedback mechanism that writes back to the system, not just a support ticket that disappears. In product terms it means the correction path is as visible and accessible as the match result itself. If a user has to hunt for it, it will not be used.</div>
+            </div>
+            <div class="flip-card-back-hint">← Flip back</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" data-card="3">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div>
+              <div class="flip-card-num">Question 04</div>
+              <div class="flip-card-question">Do we know how confident our matching is, and is that confidence visible to the people relying on it?</div>
+            </div>
+            <div class="flip-card-hint">Flip to see →</div>
+          </div>
+          <div class="flip-card-back">
+            <div>
+              <div class="flip-card-answer-label">Good Practice</div>
+              <div class="flip-card-answer">Translate confidence into a state the user can act on. A raw percentage is often not useful. A distinct visual state, a label, a flag, or a separate category for uncertain matches gives the user something to do with the uncertainty rather than ignoring it. The design question is: what does the user need to know to decide whether to trust this result?</div>
+            </div>
+            <div class="flip-card-back-hint">← Flip back</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" data-card="4">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div>
+              <div class="flip-card-num">Question 05</div>
+              <div class="flip-card-question">What would a false positive look like here, and would we know if it happened?</div>
+            </div>
+            <div class="flip-card-hint">Flip to see →</div>
+          </div>
+          <div class="flip-card-back">
+            <div>
+              <div class="flip-card-answer-label">Good Practice</div>
+              <div class="flip-card-answer">Instrument for failure, not just for success. This means defining in advance what a false positive looks like in your specific context, then building a way to detect it: a metric, a feedback loop, a user report mechanism, or a regular audit. If the only way you find out about false positives is when a user escalates loudly, your detection is not working.</div>
+            </div>
+            <div class="flip-card-back-hint">← Flip back</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cards-closing reveal">
+      <p>These questions don't belong to any one role. They aren't PM questions or engineering questions or design questions. They're the questions any thoughtful team asks when they are working on something that connects records about real people.</p>
+      <p style="margin-top:1rem;">Entity resolution is everywhere. It is inside the systems we build, the data we use, and the products we ship. Most of the time it works. When it doesn't, when a living person is marked as dead, when a family is denied benefits because a name was recorded two ways, the consequences are real and the correction is slow.</p>
+      <p style="margin-top:1rem;"><strong>Knowing it's there is the first step. Asking these questions is what comes next.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTNOTES -->
+<section id="footnotes">
+  <div class="container">
+    <ol class="footnotes-list">
+      <li>Westneat, Danny. "A Seattle Man Woke Up to Find He Was Dead, According to Social Security." <em>The Seattle Times</em>, March 15, 2025.</li>
+      <li>"Man Loses Social Security, Medicare After Being Declared Dead." <em>Newsweek</em>, March 18, 2025. <a href="https://www.newsweek.com/man-loses-social-security-medicare-after-being-declared-dead-seattle-2046573" target="_blank" rel="noopener">newsweek.com/man-loses-social-security-medicare-after-being-declared-dead-seattle-2046573</a></li>
+      <li>"Seattle Man Loses Social Security After Being Mistakenly Declared Dead." <em>Newsweek</em>, March 18, 2025. <a href="https://www.newsweek.com/seattle-man-loses-social-security-mistakenly-declared-dead-2045837" target="_blank" rel="noopener">newsweek.com/seattle-man-loses-social-security-mistakenly-declared-dead-2045837</a></li>
+      <li>"Man Falsely Declared Dead by Social Security Still Dealing with Fallout." <em>ABC News</em>, March 26, 2025. <a href="https://abcnews.go.com/US/man-falsely-declared-dead-social-security-dealing-fallout/story?id=120135649" target="_blank" rel="noopener">abcnews.go.com/US/man-falsely-declared-dead-social-security-dealing-fallout/story?id=120135649</a></li>
+      <li>"Seattle Man Wrongly Declared Dead Loses Social Security Benefits." <em>FOX 9 / LiveNOW from FOX</em>, March 21, 2025. <a href="https://www.livenowfox.com/news/seattle-man-social-security-error" target="_blank" rel="noopener">livenowfox.com/news/seattle-man-social-security-error</a></li>
+      <li>Ellis, Blake. "Social Security Wrongly Declares 14,000 People Dead Each Year." <em>CNN Money</em>, August 17, 2011. <a href="https://money.cnn.com/2011/08/17/pf/social_security_deaths_mistakes/index.htm" target="_blank" rel="noopener">money.cnn.com/2011/08/17/pf/social_security_deaths_mistakes/index.htm</a></li>
+      <li>"What Social Security Says to Do If You're Incorrectly Listed as Dead." <em>CBS News</em>, March 18, 2025. <a href="https://www.cbsnews.com/news/social-security-benefits-ssa-death/" target="_blank" rel="noopener">cbsnews.com/news/social-security-benefits-ssa-death/</a></li>
+      <li>"What Should I Do If I Am Incorrectly Listed as Deceased in Social Security's Records?" <em>SSA.gov FAQ</em>. <a href="https://www.ssa.gov/faqs/en/questions/KA-02917.html" target="_blank" rel="noopener">ssa.gov/faqs/en/questions/KA-02917.html</a></li>
+      <li>"Viktor Labin: GRU Officer in Brussels Funnels Military Exports to Russia." <em>Euromaidan Press</em>, January 27, 2024. <a href="https://euromaidanpress.com/2024/01/27/insider-gru-officer-in-brussels-funnels-military-exports-to-russia/" target="_blank" rel="noopener">euromaidanpress.com/2024/01/27/insider-gru-officer-in-brussels-funnels-military-exports-to-russia/</a></li>
+      <li>"Russia Sanctions Evasion Case Study: Viktor Labin." <em>Institute for Financial Integrity</em>, 2024. <a href="https://finintegrity.org/russia-sanctions-evasion-case-study-viktor-labin/" target="_blank" rel="noopener">finintegrity.org/russia-sanctions-evasion-case-study-viktor-labin/</a></li>
+      <li>"Suspected Russian Spy Arrested in Brussels." <em>VRT News</em>, February 2026. <a href="https://www.vrt.be/vrtnws/en/2026/02/24/suspected-russian-spy-arrested-in-brussels/" target="_blank" rel="noopener">vrt.be/vrtnws/en/2026/02/24/suspected-russian-spy-arrested-in-brussels/</a></li>
+      <li>"Iran Used Lloyds and Santander Accounts to Evade Sanctions." <em>Iran Watch</em>, February 2024. <a href="https://www.iranwatch.org/news-brief/iran-used-lloyds-santander-accounts-evade-sanctions" target="_blank" rel="noopener">iranwatch.org/news-brief/iran-used-lloyds-santander-accounts-evade-sanctions</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<button id="scrollTopBtn" aria-label="Back to top">↑</button>
+
+<footer class="site-footer">
+  <span class="footer-copy">A Matter of Matching · Citizen Codex · March 2026</span>
+</footer>
+
+<script>
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* =============================================
+   SCROLL TO TOP + LOGO LINK
+   ============================================= */
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+const logoLink = document.getElementById('logoLink');
+const heroSection = document.getElementById('hero');
+
+function scrollToTop(e) {
+  if (e) e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.addEventListener('scroll', () => {
+  const threshold = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 400;
+  if (window.scrollY > threshold) {
+    scrollTopBtn.classList.add('visible');
+  } else {
+    scrollTopBtn.classList.remove('visible');
+  }
+}, { passive: true });
+
+scrollTopBtn.addEventListener('click', scrollToTop);
+if (logoLink) logoLink.addEventListener('click', scrollToTop);
+
+/* =============================================
+   PART 1: DIAL
+   ============================================= */
+const scenarios = [
+  {
+    stakes: 'low',
+    stakesLabel: 'Low stakes',
+    title: 'The Bank Duplicate',
+    body: 'Two transactions appear in your account that look slightly different: a different merchant name abbreviation, a slightly different amount. But they are actually the same charge billed twice. Your bank\'s system has to determine whether these are one event or two before deciding whether to flag it as a duplicate.',
+    cost: 'You get charged twice. You dispute it. It gets resolved. Inconvenient, not catastrophic.'
+  },
+  {
+    stakes: 'medium',
+    stakesLabel: 'Medium stakes',
+    title: 'The Delivery That Got Lost',
+    body: 'A shipping carrier ingests a package scan from a third-party logistics partner. The address on the scan is formatted differently from the address on the original order: an abbreviated street name, a missing apartment number, a ZIP code entered without the four-digit extension. The system has to decide whether these refer to the same delivery.',
+    cost: 'The package is marked delivered to the wrong address or disappears into the system. You spend a week on hold with customer support while whatever was inside sits somewhere it shouldn\'t.'
+  },
+  {
+    stakes: 'high',
+    stakesLabel: 'High stakes',
+    title: 'The Hospital Merger',
+    body: 'Two hospital systems merge. Their patient records have to be combined. A matching system has to determine whether "Robert Johnson, DOB 3/4/1971" in one system and "Bob Johnson, DOB 03-04-71" in the other are the same patient, before a doctor makes a treatment decision that depends on having a complete medical history.',
+    cost: 'The wrong medical history informs a treatment decision. The stakes are as high as they get.'
+  }
+];
+
+// Needle angles: Low=-90deg (left), Med=0deg (up), High=+90deg (right)
+const dialAngles = [-90, 0, 90];
+const dialLabelIds = ['dialLabelLow', 'dialLabelMed', 'dialLabelHigh'];
+let dialPos = 0;
+let dialSeen = new Set([0]);
+const dialNeedle = document.getElementById('dialNeedle');
+const scenarioContent = document.getElementById('scenarioContent');
+const dialSummary = document.getElementById('dialSummary');
+
+function setDial(pos) {
+  if (pos < 0 || pos > 2) return;
+  dialPos = pos;
+  dialSeen.add(pos);
+
+  // Rotate needle
+  dialNeedle.style.transform = `rotate(${dialAngles[pos]}deg)`;
+
+  // Update label colors
+  dialLabelIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('fill', i === pos ? '#1A6B6B' : '#7A7A72');
+  });
+
+  // Render scenario card
+  const s = scenarios[pos];
+  const stakeClass = pos === 0 ? 'stakes-low' : pos === 1 ? 'stakes-medium' : 'stakes-high';
+  scenarioContent.innerHTML = `
+    <div class="scenario-cost-label">Cost of Error</div>
+    <span class="scenario-stakes ${stakeClass}">${s.stakesLabel}</span>
+    <div class="scenario-title">${s.title}</div>
+    <p class="scenario-body">${s.body}</p>
+    <div class="scenario-cost"><strong>Cost of error:</strong> ${s.cost}</div>
+  `;
+
+  if (dialSeen.size === 3) {
+    dialSummary.classList.add('visible');
+  }
+}
+
+// Initialize at Low (pos 0)
+setDial(0);
+
+// Click to cycle
+document.getElementById('dial').addEventListener('click', () => {
+  setDial((dialPos + 1) % 3);
+});
+
+// Drag support
+let dialDragging = false;
+let dialStartX = 0;
+let dialStartPos = 0;
+
+document.getElementById('dial').addEventListener('mousedown', (e) => {
+  dialDragging = true;
+  dialStartX = e.clientX;
+  dialStartPos = dialPos;
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!dialDragging) return;
+  const delta = e.clientX - dialStartX;
+  if (delta > 50 && dialStartPos < 2) { setDial(dialStartPos + 1); dialDragging = false; }
+  else if (delta < -50 && dialStartPos > 0) { setDial(dialStartPos - 1); dialDragging = false; }
+});
+
+document.addEventListener('mouseup', () => { dialDragging = false; });
+
+// Touch support
+document.getElementById('dial').addEventListener('touchstart', (e) => {
+  dialStartX = e.touches[0].clientX;
+  dialStartPos = dialPos;
+}, { passive: true });
+
+document.getElementById('dial').addEventListener('touchend', (e) => {
+  const delta = e.changedTouches[0].clientX - dialStartX;
+  if (delta > 40 && dialStartPos < 2) setDial(dialStartPos + 1);
+  else if (delta < -40 && dialStartPos > 0) setDial(dialStartPos - 1);
+  else setDial((dialPos + 1) % 3);
+}, { passive: true });
+
+/* =============================================
+   PART 2: MORPHING RECORD
+   ============================================= */
+const morphingStates = [
+  {
+    title: 'Variation',
+    subtitle: 'The same entity, recorded differently.',
+    body: 'Every system that captures data makes its own choices about how to record names, dates, addresses, and identifiers. No two systems agreed on a standard before they started. The result is that the same real-world entity can look like many different entities depending on where you find it.',
+    pairs: [
+      {
+        sources: [
+          { label: 'Source A', val: 'Nguyen General Contractors LLC' },
+          { label: 'Source B', val: 'Nguyen GC' },
+          { label: 'Source C', val: 'T. Nguyen Contractors' }
+        ],
+        context: 'Who uses it: A government procurement office cross-referencing a SAM.gov vendor registration against a local permit database and a subcontractor record to verify a small business set-aside contract.'
+      },
+      {
+        sources: [
+          { label: 'Source A', val: '123 Main Street' },
+          { label: 'Source B', val: '123 Main St.' }
+        ],
+        context: 'Who uses it: A county elections office cross-referencing voter registration records against a change-of-address database to update rolls before an election.'
+      }
+    ],
+    caption: 'Probably the same. But how certain are you? And what are you willing to risk on that certainty?'
+  },
+  {
+    title: 'Ambiguity',
+    subtitle: 'Different entities that look identical.',
+    body: 'The problem runs in both directions. Sometimes the challenge isn\'t that one entity looks like many. It\'s that many entities look like one. Common names, common business names, and shared identifiers create genuine uncertainty that no algorithm can fully resolve.',
+    pairs: [
+      {
+        sources: [
+          { label: 'Entity A', val: 'ABC Holdings LLC (Delaware)' },
+          { label: 'Entity B', val: 'ABC Holdings LLC (Wyoming)' }
+        ],
+        context: 'Who uses it: A compliance analyst at a bank screening a new business client against a sanctions list, trying to determine which of dozens of similarly named shell companies is the actual counterparty.'
+      },
+      {
+        sources: [
+          { label: 'Person A', val: 'John Smith, Washington, DC' },
+          { label: 'Person B', val: 'John Smith, Washington, DC' }
+        ],
+        context: 'Who uses it: A background check provider running a criminal records search for an employer, trying to determine whether a result belongs to the applicant or one of thousands of people sharing the same name.'
+      }
+    ],
+    caption: 'There are over 50,000 people named John Smith in the United States. Which one is in your database?'
+  },
+  {
+    title: 'Intentional Obscurity',
+    subtitle: 'Designed to be hard to match.',
+    body: 'Variation and ambiguity are accidental. This one isn\'t. Some entities are deliberately structured to evade matching: shell companies registered under slightly different names across jurisdictions, ownership structures that break graph connections, names recorded differently across legal systems. The gap between systems isn\'t a bug. It\'s the product.',
+    pairs: [
+      {
+        sources: [
+          { label: 'Source A', val: 'Midas Resources SARL, Central African Republic' },
+          { label: 'Source B', val: 'Midas Ressources, CAR' }
+        ],
+        context: 'Who uses it: A sanctions compliance analyst at a bank trying to determine whether a corporate counterparty in a wire transfer has connections to restricted entities.'
+      },
+      {
+        sources: [
+          { label: 'Source A', val: 'Roberto C. Delgado, federal court filing' },
+          { label: 'Source B', val: 'R. Delgado, state criminal record' },
+          { label: 'Source C', val: 'Robert Delgado, background check database' }
+        ],
+        context: 'Who uses it: A journalist or investigative researcher trying to build a complete legal history of a subject across federal and state court systems that share no common identifier.'
+      }
+    ],
+    caption: 'A one-letter difference. A missing initial. A different system. The same person, or the same company, that almost didn\'t get connected.'
+  }
+];
+
+let morphingState = 0;
+let morphingSeen = new Set([0]);
+const morphingDocTitle = document.getElementById('morphingDocTitle');
+const morphingDocSubtitle = document.getElementById('morphingDocSubtitle');
+const morphingDocBody = document.getElementById('morphingDocBody');
+const morphingSummaryEl = document.getElementById('morphingSummary');
+const toggleBtns = document.querySelectorAll('.toggle-btn');
+
+function renderMorphingState(idx) {
+  const s = morphingStates[idx];
+  morphingDocTitle.textContent = s.title;
+  morphingDocSubtitle.textContent = s.subtitle;
+
+  const pairsHtml = s.pairs.map(p => {
+    const cols = p.sources.length;
+    const cellsHtml = p.sources.map(src => `
+      <div class="record-pair-cell">
+        <div class="src">${src.label}</div>
+        <div class="val">${src.val}</div>
+      </div>
+    `).join('');
+    const contextHtml = p.context
+      ? `<p class="record-context">${p.context}</p>`
+      : '';
+    return `
+      <div class="record-pair" style="grid-template-columns: repeat(${cols}, 1fr);">${cellsHtml}</div>
+      ${contextHtml}
+    `;
+  }).join('');
+
+  morphingDocBody.innerHTML = `
+    <h3>${s.title}</h3>
+    <p class="subhead">${s.subtitle}</p>
+    <p>${s.body}</p>
+    ${pairsHtml}
+    <p class="morphing-caption">${s.caption}</p>
+  `;
+}
+
+renderMorphingState(0);
+
+toggleBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const idx = parseInt(btn.dataset.state);
+    morphingState = idx;
+    morphingSeen.add(idx);
+
+    toggleBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
+    renderMorphingState(idx);
+
+    if (morphingSeen.size === 3) {
+      morphingSummaryEl.style.display = 'block';
+      // Trigger reveal
+      setTimeout(() => morphingSummaryEl.classList.add('visible'), 10);
+    }
+  });
+});
+
+/* =============================================
+   PART 3A: SLIDER
+   ============================================= */
+const sliderEl = document.getElementById('thresholdSlider');
+const sliderContent = document.getElementById('sliderContent');
+const sliderPlaceholder = document.getElementById('sliderPlaceholder');
+const sliderInner = document.getElementById('sliderInner');
+const sliderCenterLabel = document.getElementById('sliderCenterLabel');
+const sliderSummary = document.getElementById('sliderSummary');
+
+let sliderSeenFP = false;
+let sliderSeenFN = false;
+
+const fpEvents = [
+  { date: 'November 2024', title: 'The Error',
+    body: 'Somewhere in the Social Security Administration\'s data systems, a death report is matched to Ned Johnson\'s record. His Social Security number is connected to an incoming death report. He is marked deceased in the Death Master File. He is alive.' },
+  { date: 'February 2025', title: 'Discovery',
+    body: 'Johnson\'s wife Pam receives a condolence letter from their bank. Social Security has reported her husband as deceased and requested the return of his benefits. The bank has already deducted $5,201 from their checking account: Johnson\'s December and January payments, clawed back.' },
+  { date: 'February 2025, Days Later', title: 'The Cascade',
+    body: 'Johnson\'s Medicare coverage is canceled. His credit score is marked "deceased, do not issue credit." His entire financial existence is contingent on a record that says he no longer exists.' },
+  { date: 'Weeks of Attempts', title: 'The Bureaucratic Wall',
+    body: 'Johnson spends weeks calling Social Security offices. No resolution. He visits his local SSA office in person and finds it severely understaffed, two employees managing a backlog of cases.' },
+  { date: 'Nearly Three Weeks Later', title: 'Partial Resolution',
+    body: 'Johnson\'s benefits are partially restored. But SSA agents warn him the error may recur. "Once you\'re tagged as dead in the electronic morgue, it floats in the ether and can haunt you again."' }
+];
+
+const fnEvents = [
+  { date: 'February 2022', title: 'Sanctions Imposed, Screening Begins',
+    body: 'After Russia\'s invasion of Ukraine the EU and U.S. impose sweeping sanctions. Banks screen every transaction by matching company names against a watchlist. Viktor Labin, a suspected Russian military intelligence officer living in Brussels, operates a Belgian company, Groupe d\'Investissement Financier, that has been shipping precision measurement machines to Russian defense contractors. It is not on any watchlist. Its name matches nothing flagged. The shipments continue.' },
+  { date: 'April 2023', title: 'The Name Variation',
+    body: 'Labin registers a new shell company in Turkey and routes shipments through it. The new company\'s name: GROUPE D\'INVESTISSEMENT FINANCIER OSBORNE. One word added. A different country. To an automated screening system comparing names against a list, this is an unknown entity, not a flagged one. The match fails. The equipment keeps moving.' },
+  { date: 'Throughout 2022–2023', title: 'The Harm Accumulates',
+    body: 'The machines reach at least 18 Russian defense companies and are used in the production of missiles deployed against Ukraine. No alert fires. No transaction is blocked. No one is notified. A false negative produces no visible error, only a consequence that spreads quietly in the gap between two names that were almost the same.' },
+  { date: 'January 2024', title: 'Discovery: By Journalists, Not Systems',
+    body: 'Russian investigative outlet The Insider publishes its findings after manually tracing corporate records. The name variation had kept the match invisible to automated screening for nearly two years. The Labin family had avoided sanctions for over a decade despite openly supporting Russia\'s war effort.' },
+  { date: 'February 2026', title: 'Arrest',
+    body: 'Viktor Labin is arrested in Brussels. The company is closed. The shipments stop. The harm that accumulated over years is not undone.' }
+];
+
+function makeSliderTimeline(events) {
+  return events.map((ev, i) => `
+    <div class="timeline-event" data-sev="${i}">
+      <div class="timeline-dot"></div>
+      <div class="timeline-event-header">
+        <span class="timeline-date">${ev.date}</span>
+        <span class="timeline-event-title">${ev.title}</span>
+        <span class="timeline-expand-icon">+</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-body-inner">${ev.body}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Event delegation for slider timelines
+sliderContent.addEventListener('click', (e) => {
+  const header = e.target.closest('.timeline-event-header');
+  if (!header) return;
+  const event = header.closest('.timeline-event');
+  if (!event) return;
+  const wasActive = event.classList.contains('active');
+  sliderContent.querySelectorAll('.timeline-event').forEach(ev => ev.classList.remove('active'));
+  if (!wasActive) event.classList.add('active');
+});
+
+function updateSlider() {
+  const val = parseInt(sliderEl.value);
+
+  if (val <= 35) {
+    sliderContent.className = 'slider-content fp';
+    sliderPlaceholder.style.display = 'none';
+    sliderInner.style.display = 'block';
+    sliderCenterLabel.style.opacity = '0.3';
+    sliderInner.innerHTML = `
+      <div class="failure-mode-label">False Positive</div>
+      <p class="failure-def">The system matches two things that are not actually the same.</p>
+      <div class="slider-case-header">
+        <span class="slider-case-title">The Ned Johnson Case</span>
+        <span class="slider-case-source">The Seattle Times, ABC News, Newsweek, February/March 2025</span>
+      </div>
+      <div class="timeline timeline-slider">${makeSliderTimeline(fpEvents)}</div>
+      <div class="slider-quote-block">
+        <p class="slider-quote-text">"You wake up one day and discover you're dead. It's been truly surreal."</p>
+        <p class="slider-quote-attr">Ned Johnson, Seattle, 2025</p>
+      </div>
+      <div class="slider-scale-note">Of the approximately 2.8 million death reports the Social Security Administration receives each year, roughly 14,000 are incorrectly entered into the Death Master File. That is <strong>38 life-altering false positives every single day</strong>.</div>
+      <p class="slider-closing-line">The person who bears the cost is the innocent person on the receiving end. Not the system. Not the designer. The person.</p>
+    `;
+    sliderSeenFP = true;
+  } else if (val >= 65) {
+    sliderContent.className = 'slider-content fn';
+    sliderPlaceholder.style.display = 'none';
+    sliderInner.style.display = 'block';
+    sliderCenterLabel.style.opacity = '0.3';
+    sliderInner.innerHTML = `
+      <div class="failure-mode-label">False Negative</div>
+      <p class="failure-def">The system fails to match two things that are actually the same.</p>
+      <div class="slider-case-header">
+        <span class="slider-case-title">The Labin Case</span>
+        <span class="slider-case-source">The Insider, Euromaidan Press, VRT News, January 2024 / February 2026</span>
+      </div>
+      <div class="timeline timeline-slider">${makeSliderTimeline(fnEvents)}</div>
+      <div class="slider-quote-block">
+        <p class="slider-quote-text">"None of the entities mentioned appear on any sanctions lists."</p>
+        <p class="slider-quote-attr">Institute for Financial Integrity, 2024</p>
+      </div>
+      <div class="slider-scale-note">A one-word variation in a company name across two jurisdictions was enough to evade automated entity matching for two years. The gap between systems was not accidental. It was engineered, and it worked.</div>
+      <p class="slider-closing-line">The cost of a false negative is diffuse, borne by everyone the bad actor harms, invisibly, over time. Nobody receives a letter. Nobody knows it happened.</p>
+    `;
+    sliderSeenFN = true;
+  } else {
+    sliderContent.className = 'slider-content';
+    sliderPlaceholder.style.display = 'none';
+    sliderInner.style.display = 'none';
+    sliderCenterLabel.style.opacity = '1';
+  }
+
+  if (sliderSeenFP && sliderSeenFN) {
+    sliderSummary.classList.add('visible');
+  }
+}
+
+sliderEl.addEventListener('input', updateSlider);
+
+/* =============================================
+   PART 3B: TIMELINE
+   ============================================= */
+document.querySelectorAll('.timeline-event').forEach(event => {
+  event.querySelector('.timeline-event-header').addEventListener('click', () => {
+    const wasActive = event.classList.contains('active');
+    document.querySelectorAll('.timeline-event').forEach(e => e.classList.remove('active'));
+    if (!wasActive) event.classList.add('active');
+  });
+});
+
+/* =============================================
+   PART 4: DECISION LOG
+   ============================================= */
+document.querySelectorAll('.decision-row').forEach(row => {
+  row.querySelector('.decision-row-header').addEventListener('click', () => {
+    const wasActive = row.classList.contains('active');
+    document.querySelectorAll('.decision-row').forEach(r => r.classList.remove('active'));
+    if (!wasActive) row.classList.add('active');
+  });
+});
+
+/* =============================================
+   PART 5: FLIP CARDS
+   ============================================= */
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});
+</script>
+</body>
+</html>
