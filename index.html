@@ -1267,14 +1267,14 @@ input[type="range"].threshold-slider::-moz-range-thumb {
 <!-- HEADER -->
 <header class="site-header">
   <a class="logo" href="#" id="logoLink">A Matter of Matching</a>
-  <div class="meta">Citizen Codex · March 2026</div>
+  <div class="meta">Citizen Codex · 2026</div>
 </header>
 
 <!-- HERO / THROUGH LINE -->
 <section id="hero">
   <div class="container">
     <div class="reveal">
-      <p class="hero-eyebrow">Citizen Codex Monthly Research · March 2026</p>
+      <p class="hero-eyebrow">Citizen Codex Research · 2026</p>
       <h1 class="hero-title">A Matter of Matching</h1>
       <p class="hero-subtitle">What entity resolution is, why it matters, and what every team needs to ask.</p>
     </div>
@@ -1308,8 +1308,8 @@ input[type="range"].threshold-slider::-moz-range-thumb {
     <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.5rem;">You Already Know This Problem.</h2>
     <h2 class="reveal reveal-delay-1" style="font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 2rem; color: var(--ink);">You Might Not Have a Name for It.</h2>
 
-    <p class="reveal">Entity resolution sounds like a technical term. It is, but it has real world implications. It's a problem you've experienced dozens of times, but often you just didn't know what to call it.</p>
-    <p class="reveal">Entity resolution is what happens when a computer has to decide whether two pieces of data refer to the same real-world thing without a shared identifier to rely on: a name, a company name, a product description, a city and state. It's a judgment call, not a lookup. And the consequences of getting it wrong depend entirely on what's at stake.</p>
+    <p class="reveal">Entity resolution sounds like a technical term. It is, but it has real world implications. It is a problem you've experienced dozens of times, but often you just didn't know what to call it.</p>
+    <p class="reveal">Entity resolution is what happens when a computer has to decide whether two pieces of data refer to the same real-world thing without a shared identifier to rely on: a name, a company name, a product description, a city and state. It's a judgment call and the consequences of getting it wrong depend entirely on what's at stake.</p>
 
     <div class="dial-wrapper reveal">
       <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin:0;">Move the dial to explore the range.</p>
@@ -1350,7 +1350,7 @@ input[type="range"].threshold-slider::-moz-range-thumb {
       </div>
 
       <div class="dial-summary" id="dialSummary">
-        <p>The stakes vary enormously. But the underlying problem is always the same: separate systems, inconsistent records, and a judgment call about whether two things are one thing.</p>
+        <p>The stakes vary enormously, but the underlying problem is always the same: separate systems, inconsistent records, and a judgment call about whether two things are one thing.</p>
         <p><strong>That is entity resolution.</strong></p>
       </div>
     </div>
@@ -1385,7 +1385,7 @@ input[type="range"].threshold-slider::-moz-range-thumb {
 
     <div class="morphing-summary reveal reveal-delay-2" id="morphingSummary" style="display:none;">
       <p>Entity resolution almost never produces a binary yes or no. It produces a probability. <em>These two records are 87% likely to be the same entity.</em></p>
-      <p style="margin-top:0.75rem;">The hard question isn't technical. It's: <em>what do you do with that 87%?</em></p>
+      <p style="margin-top:0.75rem;">The hard question is <em>what do you do with that 87%</em></p>
     </div>
   </div>
 </section>
@@ -1396,7 +1396,7 @@ input[type="range"].threshold-slider::-moz-range-thumb {
     <p class="section-label reveal">Part 3</p>
     <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">Now Raise the Stakes</h2>
 
-    <p class="reveal">Everything so far has been abstract. Let's make it concrete. Because when entity resolution fails in civic and government systems, it doesn't hold up a package or create a duplicate charge. It stops an 82-year-old man's income. It cancels his health insurance. It tells his bank he's dead.</p>
+    <p class="reveal">Everything so far has been abstract. Let's make it concrete. Because when entity resolution fails in civic and government systems, it doesn't just hold up a package or create a duplicate charge.</p>
 
     <!-- 3A: SLIDER -->
     <div class="slider-wrapper reveal">
@@ -1405,7 +1405,7 @@ input[type="range"].threshold-slider::-moz-range-thumb {
         <span class="pole-label">Match Nothing</span>
       </div>
       <div class="slider-track-container">
-        <input type="range" class="threshold-slider" id="thresholdSlider" min="0" max="100" value="50">
+        <input type="range" class="threshold-slider" id="thresholdSlider" min="0" max="2" step="1" value="1">
         <div class="slider-center-label" id="sliderCenterLabel">There is no default.</div>
       </div>
       <div class="slider-content" id="sliderContent">
@@ -1413,9 +1413,6 @@ input[type="range"].threshold-slider::-moz-range-thumb {
           <p>There is no default.</p>
         </div>
         <div class="slider-content-inner" id="sliderInner" style="display:none;"></div>
-      </div>
-      <div class="slider-summary" id="sliderSummary">
-        <p>Ned Johnson woke up and discovered he was dead. He got a letter. He knew immediately something was wrong. The Labin case produced no letter. The error was invisible until a journalist found it. That asymmetry is the nature of false positives and false negatives, and it is why the position of that slider is one of the most consequential decisions a builder can make.</p>
       </div>
     </div>
 
@@ -1426,103 +1423,6 @@ input[type="range"].threshold-slider::-moz-range-thumb {
 <section id="part4">
   <div class="container">
     <p class="section-label reveal">Part 4</p>
-    <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">What It Looks Like From the Inside</h2>
-
-    <p class="reveal">Before GovSkills, I spent several years as a product leader in corporate due diligence and supply chain risk intelligence, building tools for analysts and compliance teams trying to understand who owns what, who is connected to whom, and who is evading detection across global commercial networks.</p>
-    <p class="reveal">The users of these products were investigators, trade compliance officers, and financial crime analysts. Their job was to take a name, a company, a person, a vessel, and determine whether it was safe to do business with. Entity resolution was not a background process in this context. It was the product. Every result on the screen was the output of a matching decision made somewhere in the system.</p>
-    <p class="reveal">Working as a PM in that environment meant sitting at the intersection of the matching logic and the people relying on it. Engineers built the algorithms. But the decisions that shaped what users saw, and what they trusted, were product decisions. And they were made by people. Including me.</p>
-    <p class="reveal">This is what that decision log actually looked like.</p>
-
-    <div class="decision-log reveal reveal-delay-1">
-      <div class="decision-log-header">
-        <span class="decision-log-title">Entity Resolution: Product Decisions Log</span>
-        <span class="decision-log-meta">Sayari · Internal · PM Review</span>
-      </div>
-      <div class="decision-log-intro">
-        <p>Click any decision to see what was at stake.</p>
-      </div>
-
-      <div class="decision-row" data-row="0">
-        <div class="decision-row-header">
-          <span class="decision-row-num">01</span>
-          <span class="decision-row-name">Confidence Threshold</span>
-          <span class="decision-row-desc">At what probability does a match get surfaced to the analyst?</span>
-          <span class="decision-row-icon">+</span>
-        </div>
-        <div class="decision-row-body">
-          <div class="decision-row-body-inner">
-            <p>In corporate due diligence, an analyst might be screening a potential business partner against a sanctions list or trying to determine if two entities in different countries are actually the same company. The matching system produces a probability. We had to decide where to draw the line between a confirmed match and a possible one. Too low and analysts waste hours investigating connections that don't hold up. Too high and real connections between sanctioned entities go undetected. There is no right answer, only a considered one. We documented our reasoning. Most products don't.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="decision-row" data-row="1">
-        <div class="decision-row-header">
-          <span class="decision-row-num">02</span>
-          <span class="decision-row-name">The "Possibly Same As" Section</span>
-          <span class="decision-row-desc">How do you show an analyst that two records might be the same entity without telling them they definitely are?</span>
-          <span class="decision-row-icon">+</span>
-        </div>
-        <div class="decision-row-body">
-          <div class="decision-row-body-inner">
-            <p>Rather than showing a raw confidence score, a number most analysts wouldn't know how to act on, we created a distinct state in the product: "possibly same as." A company in the UAE and a company in the British Virgin Islands might share directors, addresses, and registration patterns without sharing a name. This wasn't a dismissal of an uncertain match. It was a flag that said: we found something, we're not certain, and now it's yours to investigate. That translation from probability to actionable category is a product decision, not a data science decision. It shapes what analysts trust and what they question.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="decision-row" data-row="2">
-        <div class="decision-row-header">
-          <span class="decision-row-num">03</span>
-          <span class="decision-row-name">Recall vs. Precision</span>
-          <span class="decision-row-desc">Do we optimize to surface every possible connection, or only the ones we're confident about?</span>
-          <span class="decision-row-icon">+</span>
-        </div>
-        <div class="decision-row-body">
-          <div class="decision-row-body-inner">
-            <p>In supply chain mapping, a procurement team might need to screen hundreds of suppliers against export control lists. Do you show every possible match and let analysts sort it out, catching more real risks but generating more noise? Or do you only surface high-confidence matches, fewer false alarms but some real risks missed? For a consumer product the calculus is easy. For a trade compliance product where a false negative can mean inadvertently financing sanctioned activity, the cost of missing a real connection is not recoverable. That consequence shaped every tuning decision. The question, what are we optimizing for and why, should be asked before any matching system is built. Not after.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="decision-row" data-row="3">
-        <div class="decision-row-header">
-          <span class="decision-row-num">04</span>
-          <span class="decision-row-name">Making Country Identifiers Legible</span>
-          <span class="decision-row-desc">How do you help an analyst evaluate a match when they don't have country-level expertise?</span>
-          <span class="decision-row-icon">+</span>
-        </div>
-        <div class="decision-row-body">
-          <div class="decision-row-body-inner">
-            <p>Every country has its own corporate registration identifiers. A French SIREN number, a UK Companies House number, a UAE commercial license number. In global due diligence work, analysts are often crossing dozens of jurisdictions they don't specialize in. If the system surfaces two records matched on a Cameroonian tax ID the analyst has never encountered, they have no way to evaluate whether that match is meaningful or coincidental. We wrote plain-language explanations of what each identifier was, where it came from, and why it was being used to suggest a connection. That documentation wasn't for the algorithm. It was for the person relying on it.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="decision-row" data-row="4">
-        <div class="decision-row-header">
-          <span class="decision-row-num">05</span>
-          <span class="decision-row-name">The Combined Profile as Transparency</span>
-          <span class="decision-row-desc">Should analysts see the underlying source records that make up a combined entity profile, or just the clean merged result?</span>
-          <span class="decision-row-icon">+</span>
-        </div>
-        <div class="decision-row-body">
-          <div class="decision-row-body-inner">
-            <p>In corporate due diligence, trust in the product depends on being able to verify the result. We showed both the merged profile and the underlying source records, the raw data from each jurisdiction, each registry, each document. An analyst screening a supply chain partner could see exactly which records had been combined and make their own judgment about whether the match held. That visibility is a form of accountability. It meant analysts weren't blindly trusting a result they couldn't interrogate. It also meant that when the system was wrong, a skilled analyst could catch it. Most products abstract this away in the name of simplicity. We decided the abstraction cost too much.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="decision-log-footer">
-        <p>These aren't engineering decisions. Every one of them is a design decision, a product decision, a values decision. The algorithm executes them. But a person made them, and those decisions travel downstream into the lives of people who never knew they were made.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PART 5 -->
-<section id="part5">
-  <div class="container">
-    <p class="section-label reveal">Part 5</p>
     <h2 class="reveal" style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 2rem;">What to Take With You</h2>
 
     <p class="reveal">Entity resolution is infrastructure. It runs underneath products you use every day and systems that govern access to benefits, credit, housing, and opportunity. Most of the time you don't see it. You see the outcome.</p>
@@ -1653,7 +1553,6 @@ input[type="range"].threshold-slider::-moz-range-thumb {
       <li>"Viktor Labin: GRU Officer in Brussels Funnels Military Exports to Russia." <em>Euromaidan Press</em>, January 27, 2024. <a href="https://euromaidanpress.com/2024/01/27/insider-gru-officer-in-brussels-funnels-military-exports-to-russia/" target="_blank" rel="noopener">euromaidanpress.com/2024/01/27/insider-gru-officer-in-brussels-funnels-military-exports-to-russia/</a></li>
       <li>"Russia Sanctions Evasion Case Study: Viktor Labin." <em>Institute for Financial Integrity</em>, 2024. <a href="https://finintegrity.org/russia-sanctions-evasion-case-study-viktor-labin/" target="_blank" rel="noopener">finintegrity.org/russia-sanctions-evasion-case-study-viktor-labin/</a></li>
       <li>"Suspected Russian Spy Arrested in Brussels." <em>VRT News</em>, February 2026. <a href="https://www.vrt.be/vrtnws/en/2026/02/24/suspected-russian-spy-arrested-in-brussels/" target="_blank" rel="noopener">vrt.be/vrtnws/en/2026/02/24/suspected-russian-spy-arrested-in-brussels/</a></li>
-      <li>"Iran Used Lloyds and Santander Accounts to Evade Sanctions." <em>Iran Watch</em>, February 2024. <a href="https://www.iranwatch.org/news-brief/iran-used-lloyds-santander-accounts-evade-sanctions" target="_blank" rel="noopener">iranwatch.org/news-brief/iran-used-lloyds-santander-accounts-evade-sanctions</a></li>
     </ol>
   </div>
 </section>
@@ -1662,7 +1561,7 @@ input[type="range"].threshold-slider::-moz-range-thumb {
 <button id="scrollTopBtn" aria-label="Back to top">↑</button>
 
 <footer class="site-footer">
-  <span class="footer-copy">A Matter of Matching · Citizen Codex · March 2026</span>
+  <span class="footer-copy">A Matter of Matching · Citizen Codex · 2026</span>
 </footer>
 
 <script>
@@ -1726,7 +1625,7 @@ const scenarios = [
     stakesLabel: 'High stakes',
     title: 'The Hospital Merger',
     body: 'Two hospital systems merge. Their patient records have to be combined. A matching system has to determine whether "Robert Johnson, DOB 3/4/1971" in one system and "Bob Johnson, DOB 03-04-71" in the other are the same patient, before a doctor makes a treatment decision that depends on having a complete medical history.',
-    cost: 'The wrong medical history informs a treatment decision. The stakes are as high as they get.'
+    cost: 'The stakes are as high as they get when the wrong medical history informs a treatment decision.'
   }
 ];
 
@@ -1951,7 +1850,6 @@ const sliderContent = document.getElementById('sliderContent');
 const sliderPlaceholder = document.getElementById('sliderPlaceholder');
 const sliderInner = document.getElementById('sliderInner');
 const sliderCenterLabel = document.getElementById('sliderCenterLabel');
-const sliderSummary = document.getElementById('sliderSummary');
 
 let sliderSeenFP = false;
 let sliderSeenFN = false;
@@ -2012,7 +1910,7 @@ sliderContent.addEventListener('click', (e) => {
 function updateSlider() {
   const val = parseInt(sliderEl.value);
 
-  if (val <= 35) {
+  if (val === 0) {
     sliderContent.className = 'slider-content fp';
     sliderPlaceholder.style.display = 'none';
     sliderInner.style.display = 'block';
@@ -2033,7 +1931,7 @@ function updateSlider() {
       <p class="slider-closing-line">The person who bears the cost is the innocent person on the receiving end. Not the system. Not the designer. The person.</p>
     `;
     sliderSeenFP = true;
-  } else if (val >= 65) {
+  } else if (val === 2) {
     sliderContent.className = 'slider-content fn';
     sliderPlaceholder.style.display = 'none';
     sliderInner.style.display = 'block';
@@ -2050,8 +1948,8 @@ function updateSlider() {
         <p class="slider-quote-text">"None of the entities mentioned appear on any sanctions lists."</p>
         <p class="slider-quote-attr">Institute for Financial Integrity, 2024</p>
       </div>
-      <div class="slider-scale-note">A one-word variation in a company name across two jurisdictions was enough to evade automated entity matching for two years. The gap between systems was not accidental. It was engineered, and it worked.</div>
-      <p class="slider-closing-line">The cost of a false negative is diffuse, borne by everyone the bad actor harms, invisibly, over time. Nobody receives a letter. Nobody knows it happened.</p>
+      <div class="slider-scale-note">A one-word variation in a company name across two jurisdictions was enough to evade automated entity matching for two years. The gap between systems was not accidental, it was engineered, and it worked.</div>
+      <p class="slider-closing-line">The cost of a false negative is supported by everyone the bad actor harms, invisibly, over time. Nobody knows it happened.</p>
     `;
     sliderSeenFN = true;
   } else {
@@ -2059,10 +1957,6 @@ function updateSlider() {
     sliderPlaceholder.style.display = 'none';
     sliderInner.style.display = 'none';
     sliderCenterLabel.style.opacity = '1';
-  }
-
-  if (sliderSeenFP && sliderSeenFN) {
-    sliderSummary.classList.add('visible');
   }
 }
 
